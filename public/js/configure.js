@@ -104,7 +104,7 @@ const fontSetting = () => {
 fontSetting()
 
 // copy code
-var copyToClipboard = (copyCode) => {
+var copyToClipboard = (copyCode, message) => {
     copyCode = copyCode.trim()
     let textarea = document.createElement('textarea')
     textarea.type = 'hidden'
@@ -113,24 +113,27 @@ var copyToClipboard = (copyCode) => {
     textarea.select()
     document.execCommand('copy')
     document.body.removeChild(textarea)
+    let body = document.body
+    let msg = document.createElement('div')
+    msg.className = 'code-copied'
+    msg.innerHTML = message + '<i class="fas fa-check ml-5"></i>'
+    body.appendChild(msg)   
+    setTimeout(() => {
+        msg.remove()
+    }, 2000)
 }
 
-const copySetting = () => {
+const copyEditorCodeSetting = () => {
     let copyBtn = document.getElementById('copy-code')
     copyBtn.addEventListener('click', () => {
         copyBtn.disabled = true
         copyBtn.className = 'bg-disabled mr-5'
-        copyToClipboard(editor. getSession(). getValue())
-        let body = document.body
-        let msg = document.createElement('div')
-        msg.className = 'code-copied'
-        msg.innerHTML = 'Code Copied &nbsp; <i class="fas fa-check"></i>'
-        body.appendChild(msg)   
+        copyToClipboard(editor.getSession().getValue(), 'Code Copied')
+        
         setTimeout(() => {
-            msg.remove()
             copyBtn.className = 'bg-quad mr-5'
             copyBtn.disabled = false
         }, 2000)
     })
 }
-copySetting()
+copyEditorCodeSetting()

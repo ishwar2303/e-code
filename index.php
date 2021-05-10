@@ -11,26 +11,7 @@
         <div class="flex-row">
             <div class="nav-bar">
                 <nav class="flex-col">
-                    <div class="pt-10">
-                        <h3 class="text-center mb-10 secondary">Editor Settings</h3>
-                        <!-- <div class="custom-input">
-                            <label for="">Select Language</label>
-                            <select id="editor-language">
-                            </select>
-                        </div> -->
-                        <div class="custom-input">
-                            <label for="">Select Theme</label>
-                            <select id="editor-theme">
-                            </select>
-                        </div>
-                        <div class="custom-input">
-                            <label for="">Select Font Size</label>
-                            <select id="editor-font-size">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="separate"></div>
-                    <div>
+                    <div class="mb-10">
                         <h3 class="text-center ptb-10 secondary">Provide Input</h3>
                         <div class="mb-10">
                             <button id="open-custom-input" class="btn bg-dark white w-100">Custom Input</button>
@@ -52,9 +33,25 @@
                             <script src="public/js/runtime-input-file-upload.js"></script>
                         </div>
                     </div>
-                    <div>
+                    <div class="separate"></div>
+                    <div class="pt-10">
+                        <h3 class="text-center mb-10 secondary">Editor Settings</h3>
+                        <!-- <div class="custom-input">
+                            <label for="">Select Language</label>
+                            <select id="editor-language">
+                            </select>
+                        </div> -->
+                        <div class="custom-input">
+                            <label for="">Select Theme</label>
+                            <select id="editor-theme">
+                            </select>
+                        </div>
+                        <div class="custom-input">
+                            <label for="">Select Font Size</label>
+                            <select id="editor-font-size">
+                            </select>
+                        </div>
                     </div>
-                    
                 </nav>
             </div>
             <div class="flex-row flex-1">
@@ -63,10 +60,55 @@
                         <div>
                             <button id="run-btn" class="bg-success-pm  mr-5">Run</button>
                             <button id="stop-btn" class="bg-disabled mr-5" disabled>Stop</button>
-                            <button id="run-pgm" class="bg-primary mr-5">Raw</button>
+                            <button id="raw-pgm" class="bg-primary mr-5">Raw</button>
                             <button id="copy-code" class="bg-quad mr-5"><i class="fas fa-copy"></i> Copy</button>
                             <button id="save-code-popup" class="bg-secondary mr-5"><i class="fas fa-save"></i> Save</button>
-                            <button id="run-pgm" class="bg-tert"><i class="fas fa-download"></i> Download</button>
+                            <button id="load-code" class="bg-primary mr-5"><i class="fas fa-code"></i> Load</button>
+                            <button id="download-pgm" class="bg-tert mr-5"><i class="fas fa-download"></i> Download</button>
+                            <button id="clear-editor-code" class="bg-dark-light mr-5">Clear</button>
+                            <button id="reset-editor-code" class="bg-primary mr-5">Reset</button>
+                            <script>
+                                $('#raw-pgm').click(() => {
+                                    let reqData = {
+                                        user_code : editor.getSession().getValue()
+                                    }
+                                    $.ajax({
+                                        url : 'prepare-raw.php',
+                                        dataType : 'html',
+                                        type : 'POST',
+                                        success : (msg) => {
+
+                                        },
+                                        complete : (res) => {
+                                            let anchor = document.createElement('a')
+                                            anchor.href = 'raw.txt'
+                                            anchor.target = '_blank'
+                                            anchor.click()
+                                        },
+                                        data : reqData
+                                    })
+                                })
+                                $('#download-pgm').click(() => {
+                                    let reqData = {
+                                        user_code : editor.getSession().getValue()
+                                    }
+                                    $.ajax({
+                                        url : 'prepare-raw.php',
+                                        dataType : 'html',
+                                        type : 'POST',
+                                        success : (msg) => {
+
+                                        },
+                                        complete : (res) => {
+                                            let anchor = document.createElement('a')
+                                            anchor.href = 'download-raw.php'
+                                            anchor.target = '_blank'
+                                            anchor.click()
+                                        },
+                                        data : reqData
+                                    })
+                                })
+                            </script>
                             
                         </div>
                         <div>
@@ -87,9 +129,25 @@
                         <script>document.getElementById('editor').innerHTML = ''</script>
                     </div>
                     <div class="output-container ptb-10 mt-10">
-                        <h3 class="output-label">Program Output</h3>
+                        <div class="flex-row space-between">
+                            <div class="ptb-8">
+                                <span class="p-8-10 br-t-3 bg-primary white mr-5 fs-s">Program Output</span>
+                                <span id="pgm-success" class="p-8-10 br-t-3 bg-success-pm white mr-5 fs-s"><i class="fas fa-check mr-5"></i> Program Finished</span>
+                                <span id="pgm-error" class="p-8-10 br-t-3 bg-danger white mr-5 fs-s"><i class="fas fa-exclamation-circle mr-5"></i> Error Occurred</span>
+                            </div>
+                            <div class="ptb-8">
+                                <span id="copy-output" class="p-8-10 br-t-3 bg-quad white cursor-p hover-shadow fs-s"><i class="fas fa-copy mr-5"></i> Copy Output</span>
+                            </div>
+                        </div>
+                        
                         <div class="output bg-dark">
-                            <pre id="code-response-terminate">No output</pre>
+                            <div id="code-response-terminate" class="output-value"><pre id="returned-output">No Output</pre></div>
+                            <script>
+                                $('#copy-output').click(() => {
+                                    let copy = document.getElementById('returned-output').innerHTML
+                                    copyToClipboard(copy, 'Ouput Copied')
+                                })
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -98,6 +156,57 @@
         
     </div>
     
+    <div class="load-code-response">
+        <div class="flex-col p-r">
+            <span id="close-load-code-response" >
+                <i class="fas fa-times"></i>
+            </span>
+            <div class="flex-row space-between p-f">
+                <h4 class="pm-dark"><i class="fas fa-code mr-5"></i> Load code to editor</h4>
+            </div>
+            <div style="height : 40px;"></div>
+            <div class="load-code-response-content flex-col">
+
+            </div>
+        </div>
+    </div>
+    <div class="load-code-response-overlay"></div>
+
+<!-- Load code -->
+<script>
+
+    $('#load-code').click(() => {
+        let loading = '<i class="fas fa-redo-alt fa-spin mr-5"></i> Loading'
+        $('#load-code').html(loading)
+        let lcrh = document.getElementsByClassName('load-code-response')[0].offsetHeight
+        document.getElementsByClassName('load-code-response-content')[0].style.height = 400 + 'px'
+        console.log('height : ' + lcrh)
+        let reqData = {
+            load : true
+        }
+        $.ajax({
+            url : 'load-code.php',
+            type : 'POST',
+            dataType : 'html',
+            success : (msg) => {
+
+            },
+            complete : (res) => {
+                $('.load-code-response-content').html(res.responseText)
+                $('.load-code-response').show()
+                $('.load-code-response-overlay').show()
+                $('#load-code').html('<i class="fas fa-code"></i> Load')
+            },
+            data : reqData
+
+        })
+    })
+    $('#close-load-code-response').click(() => {
+        $('.load-code-response').hide()
+        $('.load-code-response-overlay').hide()
+    })
+</script>
+
 
     <div class="code-save-popup">
         <div class="flex-col">
@@ -161,12 +270,14 @@
             runtimeData
         }
         let url = 'run-code.php'
-        //$('.overlay').toggle()
-        setTimeout(() => {
-            $('#code-response').load(url, reqObj, (response, status, xhr) => {
-                programRequest = xhr
-            })
-        }, 2000);
+        $('#code-response').load(url, reqObj, (response, status, xhr) => {
+            programRequest = xhr
+            let b = document.getElementById('returned-output')
+            b.style.display = 'none'
+            let w = document.getElementById('editor').offsetWidth - 20 + 'px'
+            document.getElementById('returned-output').style.width = w
+            b.style.display = 'block'
+        })
     })
     $('#stop-btn').click(() => {
             runBtn = document.getElementById('run-btn')
@@ -182,6 +293,7 @@
             // document.getElementById('error-btn').style.display = 'none'
             // document.getElementById('success-btn').style.display = 'none'
             document.getElementById('code-response-terminate').innerHTML = 'Program stopped'
+
         })
 
 </script>
@@ -230,4 +342,38 @@
             data : reqData
         })
     })
+</script>
+
+<script>
+    $('#clear-editor-code').click(() => {
+        let code = editor.getSession().getValue()
+        // if(code != '')
+        //     localStorage.setItem('editor-code', code)
+        editor.setValue('')
+        $('#clear-editor-code').hide()
+        $('#reset-editor-code').show()
+    })
+    $('#reset-editor-code').click(() => {
+        let code = localStorage.getItem('editor-code')
+        editor.setValue(code)
+        $('#clear-editor-code').show()
+        $('#reset-editor-code').hide()
+    })
+    const saveCodeInLocalStorage = () => {
+        
+        let code = editor.getSession().getValue()
+        if(code != ''){
+            localStorage.setItem('editor-code', code)
+            let msg = document.createElement('div')
+            msg.className = 'bg-success-pm white p-5-10 position-lb-fixed br-3 fs-s'
+            msg.innerHTML = 'Code saved in local storage <i class="fas fa-check ml-5"></i>'
+            document.body.appendChild(msg)
+            
+            setTimeout(() => {
+                msg.remove()
+            }, 2000)
+        }
+    }
+    let interval = setInterval(saveCodeInLocalStorage, 20000)
+
 </script>

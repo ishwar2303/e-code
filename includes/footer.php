@@ -1,6 +1,6 @@
 <footer class="bg-dark white">
     <div class="flex-row">
-        <div class="flex-row flex-1">
+        <div class="flex-row flex-1 p-15">
             <div class="flex-col">
                 <h3 class="mb-10">E-Code</h3>
                 <div>
@@ -14,10 +14,10 @@
                 </div>
             </div>
         </div>
-        <div class="flex-row flex-1">
+        <div class="flex-row flex-1 p-15">
             <div class="flex-col">
                 <h3 class="mb-10 fs-m">Contact</h3>
-                <p class="fs-s"><i class="fas fa-envelope mr-5"></i> <b>E-mail</b> : ishwar2303@gmail.com</p>
+                <p class="fs-s mb-5"><i class="fas fa-envelope mr-5"></i> <b>E-mail</b> : ishwar2303@gmail.com</p>
                 <p class="fs-s"><i class="fas fa-phone mr-5"></i> <b>Mobile</b> : 9821671707</p>
 
                 <h3 class="mt-10 fs-m">Follow me on</h3>

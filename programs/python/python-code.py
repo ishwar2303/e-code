@@ -1,7 +1,3 @@
-#include <iostream>
-using namespace std;
-
-int main(){
-    cout << "Hello \n World";
-    return 0;
-}
+x = int(input())
+y = int(input())
+print(x + y)

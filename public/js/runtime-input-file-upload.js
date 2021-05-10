@@ -16,6 +16,7 @@ runTimeFileUpload.addEventListener('change', () => {
         if(file.type != 'text/plain'){
             res.innerHTML = 'Invalid File'
             res.className = 'bg-danger'
+            res.style.display = 'block'
         }
         else {
             res.className = 'bg-success-pm'
@@ -27,18 +28,21 @@ runTimeFileUpload.addEventListener('change', () => {
                 processData : false,
                 success : () => {
                     res.innerHTML += '<br/> <i class="fas fa-redo-alt fa-spin"></i> Uploading'
+                    res.style.display = 'block'
                 },
                 complete : (r) => {
                     r = JSON.parse(r.responseText)
                     if(r.success){
-                        res.innerHTML = fileName + '<br/>' + r.success
+                        res.innerHTML = fileName + '<br/>' + r.success + '<br/>' + 'Run your program'
                         document.getElementById('custom-input-block').style.display = 'none'
-                        document.getElementById('open-custom-input').style.display = 'flex'
+                        document.getElementById('open-custom-input').style.display = 'block'
                         document.getElementById('runtime-input').value = ''
+                        res.style.display = 'block'
                     }
                     else{
                         res.innerHTML = r.error
                         res.className = 'bg-danger'
+                        res.style.display = 'block'
                     }
                 },
                 data : fd
