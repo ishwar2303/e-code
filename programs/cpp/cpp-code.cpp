@@ -1,10 +1,10 @@
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 int main(){
-    int x, y;
-    cin >> x >> y;
-    cout << x+ y;
+
+    cout << sqrt(4);
 
 	return 0;
 

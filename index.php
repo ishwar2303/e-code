@@ -10,22 +10,12 @@
     <div class="wrapper">
         <div class="flex-row">
             <div class="nav-bar">
-                <nav class="flex-col">
+                <nav class="flex-col" >
                     <div class="mb-10">
                         <h3 class="text-center ptb-10 secondary">Provide Input</h3>
                         <div class="mb-10">
                             <button id="open-custom-input" class="btn bg-dark white w-100">Custom Input</button>
                         </div>
-                        <div id="custom-input-block" class="custom-input mb-10 pb-20" style="height : 150px;">
-                            <label for="">Custom Input</label>
-                            <textarea class="w-100" id="runtime-input"></textarea>
-                        </div>
-                        <script>
-                            $('#open-custom-input').click(() => {
-                                document.getElementById('custom-input-block').style.display = 'flex'
-                                document.getElementById('open-custom-input').style.display = 'none'
-                            })
-                        </script>
                         <div class="mt-10">
                             <input id="runtime-input-file-upload" type="file" style="display:none;" />
                             <button id="runtime-input-file-upload-btn" class="btn bg-primary white w-100"><i class="fas fa-upload"></i> Upload File</button>
@@ -128,6 +118,27 @@
                         </div>
                         <script>document.getElementById('editor').innerHTML = ''</script>
                     </div>
+
+                    <div class="provide-input pt-10">
+                        <div class="flex-row space-between">
+                            <div class="ptb-8">
+                                <span class="p-8-10 br-t-3 bg-secondary white mr-5 fs-s">Input</span>
+                            </div>
+                            <div></div>
+                        </div>
+                        <div>
+                            <textarea id="runtime-input" class="br-t-3" style="height : 200px;" placeholder="Write input here..."></textarea>
+                            <script>
+                                $('#open-custom-input').click(() => {
+                                    document.getElementById('runtime-input').focus()
+                                    $('html,body').animate({
+                                        scrollTop: $(".provide-input").offset().top -110},
+                                        'fast');
+                                })
+                            </script>
+                        </div>
+                    </div>
+
                     <div class="output-container ptb-10 mt-10">
                         <div class="flex-row space-between">
                             <div class="ptb-8">
@@ -212,7 +223,7 @@
         <div class="flex-col">
             <h3 class="mb-10">Save your code permanently and load it to continue from where you stopped</h3>
             <div class="ptb-10">
-                <div class="custom-input">
+                <div class="custom-input pb-20">
                     <label for="">Give your code a title to easily identify</label>
                     <input id="code-title" type="text"/>
                 </div>
@@ -359,6 +370,15 @@
         $('#clear-editor-code').show()
         $('#reset-editor-code').hide()
     })
+    // load code from local storage if available
+    const loadCode = () => {
+        let code = localStorage.getItem('editor-code')
+        if(code)
+            editor.setValue(code)
+    }
+
+    loadCode()
+
     const saveCodeInLocalStorage = () => {
         
         let code = editor.getSession().getValue()

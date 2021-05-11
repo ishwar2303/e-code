@@ -3,7 +3,7 @@
         <button id="toggle-nav-bar" class="btn mr-5 bg-primary white p-5-10">
             <i style="font-size : 25px" class="fas fa-bars"></i>
         </button>
-        <h3 class="secondary">E-Code</h3>
+        <h3 class="secondary" style="font-family:cursive;">E-Code</h3>
     </div>
     <div></div>
 </header>

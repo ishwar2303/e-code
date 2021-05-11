@@ -34,7 +34,7 @@
             else{
                 $output_error = '';
                 foreach($output as $value){
-                    $output_error .= $value.'<br/>';
+                    $output_error .= $value."\n";
                 }
                 $output = $output_error;
             }
@@ -55,7 +55,7 @@
             else{
                 $output_error = '';
                 foreach($output as $value){
-                    $output_error .= $value.'<br/>';
+                    $output_error .= $value."\n";
                 }
                 $output = $output_error;
             }

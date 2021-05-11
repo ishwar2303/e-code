@@ -1,5 +1,9 @@
 
 $('#runtime-input-file-upload-btn').click(() => {
+    let res = document.getElementById('selected-file')
+    res.className = ''
+    res.innerHTML = ''
+    res.style.padding = '0'
     $('#runtime-input-file-upload').click()
 })
 let runTimeFileUpload = document.getElementById('runtime-input-file-upload')
@@ -7,14 +11,16 @@ runTimeFileUpload.addEventListener('change', () => {
     let file = runTimeFileUpload
     file = file.files[0]
     let res = document.getElementById('selected-file')
+    res.style.padding = '10px 5px'
     var fd = new FormData()
     fd.append('file',file);
     if(file){
+        let errorIcon = '<i class="fas fa-exclamation-circle mr-5"></i>'
         let fileName = file.name
         if(fileName.length > 50)
             fileName = fileName.substring(0,10) + '...' + fileName.substring(fileName.length - 20, fileName.length)
         if(file.type != 'text/plain'){
-            res.innerHTML = 'Invalid File'
+            res.innerHTML = errorIcon + 'Invalid File'
             res.className = 'bg-danger'
             res.style.display = 'block'
         }
@@ -40,7 +46,7 @@ runTimeFileUpload.addEventListener('change', () => {
                         res.style.display = 'block'
                     }
                     else{
-                        res.innerHTML = r.error
+                        res.innerHTML = errorIcon + r.error
                         res.className = 'bg-danger'
                         res.style.display = 'block'
                     }

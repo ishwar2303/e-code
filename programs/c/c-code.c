@@ -2,7 +2,11 @@
 
 int main(){
 
-    printf("Hello World");
+    char str[100];
+    
+    gets(str);
+
+    printf("%s", str);
 
 	return 0;
 

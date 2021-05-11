@@ -20,14 +20,14 @@
     while($row = $result->fetch_assoc()){
         ?>
         <div class="code-wrapper mb-10">
-            <h4 class="code-title bg-primary-light br-3 white p-5-10 flex-row space-between">
+            <h4 class="code-title bg-success-tert br-t-3 white p-5-10 flex-row space-between">
                 <div><?php echo $row['title']; ?></div>
                 <div>
                     <button class="btn bg-dark load-code-to-editor white">Load</button>
                 </div>
              
             </h4>
-            <pre class="request-code-load"><?php echo $row['code']; ?></pre>
+            <pre class="request-code-load p-10 white br-b-3" style="background:#393939;"><?php echo $row['code']; ?></pre>
 
         </div>
         <script>
