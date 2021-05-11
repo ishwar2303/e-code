@@ -22,10 +22,10 @@
 
                 <h3 class="mt-10 fs-m">Follow me on</h3>
                 <div class="flex-row align-items-center">
-                    <a href="" style="color:rgb(64 189 71);font-size:25px;" class="mr-10"><i class="fab fa-github"></i></a> |
-                    <a href="" style="color:#7a7ad0;font-size:25px;" class="ml-10 mr-10"><i class="fab fa-linkedin"></i></a> |
-                    <a href="" style="color:#5f5fca;font-size:25px;" class="ml-10 mr-10"><i class="fab fa-facebook-f"></i></a> |
-                    <a href="" style="color:pink;font-size:25px;" class="ml-10 mr-10"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/ishwar2303" target="_blank" style="color:rgb(64 189 71);font-size:25px;" class="mr-10"><i class="fab fa-github"></i></a> |
+                    <a href="" target="_blank" style="color:#7a7ad0;font-size:25px;" class="ml-10 mr-10"><i class="fab fa-linkedin"></i></a> |
+                    <a href="" target="_blank" style="color:#5f5fca;font-size:25px;" class="ml-10 mr-10"><i class="fab fa-facebook-f"></i></a> |
+                    <a href="" target="_blank" style="color:pink;font-size:25px;" class="ml-10 mr-10"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>

@@ -115,8 +115,14 @@ var copyToClipboard = (copyCode, message) => {
     document.body.removeChild(textarea)
     let body = document.body
     let msg = document.createElement('div')
-    msg.className = 'code-copied'
-    msg.innerHTML = message + '<i class="fas fa-check ml-5"></i>'
+    if(copyCode != ''){
+        msg.className = 'code-copied'
+        msg.innerHTML = message + '<i class="fas fa-check ml-5"></i>'
+    }
+    else{
+        msg.className = 'bg-danger flash-msg-set'
+        msg.innerHTML = '<i class="fas fa-exclamation-circle mr-5"></i>' + 'Empty cannot be copied'
+    }
     body.appendChild(msg)   
     setTimeout(() => {
         msg.remove()

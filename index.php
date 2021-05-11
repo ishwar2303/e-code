@@ -60,10 +60,11 @@
                             <script>
                                 $('#raw-pgm').click(() => {
                                     let reqData = {
-                                        user_code : editor.getSession().getValue()
+                                        user_code : editor.getSession().getValue(),
+                                        file_name : 'raw'
                                     }
                                     $.ajax({
-                                        url : 'prepare-raw.php',
+                                        url : 'prepare-download.php',
                                         dataType : 'html',
                                         type : 'POST',
                                         success : (msg) => {
@@ -79,11 +80,17 @@
                                     })
                                 })
                                 $('#download-pgm').click(() => {
+                                    let user_code = editor.getSession().getValue()
                                     let reqData = {
-                                        user_code : editor.getSession().getValue()
+                                        user_code,
+                                        file_name : 'raw'
+                                    }
+                                    if(user_code == ''){
+                                        flashMessage('Empty Program', 'bg-danger', '<i class="fas fa-exclamation-circle mr-5"></i>')
+                                        return
                                     }
                                     $.ajax({
-                                        url : 'prepare-raw.php',
+                                        url : 'prepare-download.php',
                                         dataType : 'html',
                                         type : 'POST',
                                         success : (msg) => {
@@ -94,6 +101,7 @@
                                             anchor.href = 'download-raw.php'
                                             anchor.target = '_blank'
                                             anchor.click()
+                                            flashMessage('File downloaded successfully', 'bg-success-pm', '<i class="fas fa-check mr-5"></i>')
                                         },
                                         data : reqData
                                     })
@@ -124,10 +132,48 @@
                             <div class="ptb-8">
                                 <span class="p-8-10 br-t-3 bg-secondary white mr-5 fs-s">Input</span>
                             </div>
-                            <div></div>
+                            <div class="ptb-8">
+                                <span id="download-input" class="p-8-10 br-t-3 bg-tert white cursor-p hover-shadow fs-s"><i class="fas fa-download mr-5"></i> Download</span>
+                                <span id="copy-input" class="p-8-10 br-t-3 bg-quad white cursor-p hover-shadow fs-s"><i class="fas fa-copy mr-5"></i> Copy Input</span>
+                            </div>
+                            <script>
+                                $('#copy-input').click(() => {
+                                    let copy = document.getElementById('runtime-input').value
+                                    copyToClipboard(copy, 'Input Copied')
+                                })
+                            </script>
+                            <script>
+                                $('#download-input').click(() => {
+                                    let user_code = document.getElementById('runtime-input').value
+                                    let reqData = {
+                                        user_code,
+                                        file_name : 'runtime-input'
+                                    }
+                                    if(user_code == ''){
+                                        flashMessage('Empty Input', 'bg-danger', '<i class="fas fa-exclamation-circle mr-5"></i>')
+                                        return
+                                    }
+                                    $.ajax({
+                                        url : 'prepare-download.php',
+                                        dataType : 'html',
+                                        type : 'POST',
+                                        success : (msg) => {
+
+                                        },
+                                        complete : (res) => {
+                                            let anchor = document.createElement('a')
+                                            anchor.href = 'download-input.php'
+                                            anchor.target = '_blank'
+                                            anchor.click()
+                                            flashMessage('File downloaded successfully', 'bg-success-pm', '<i class="fas fa-check mr-5"></i>')
+                                        },
+                                        data : reqData
+                                    })
+                                })
+                            </script>
                         </div>
                         <div>
-                            <textarea id="runtime-input" class="br-t-3" style="height : 200px;" placeholder="Write input here..."></textarea>
+                            <textarea id="runtime-input" spellcheck="false" class="br-t-3" style="height : 200px;" placeholder="Write input here..."></textarea>
                             <script>
                                 $('#open-custom-input').click(() => {
                                     document.getElementById('runtime-input').focus()
@@ -145,6 +191,7 @@
                                 <span class="p-8-10 br-t-3 bg-primary white mr-5 fs-s">Program Output</span>
                                 <span id="pgm-success" class="p-8-10 br-t-3 bg-success-pm white mr-5 fs-s"><i class="fas fa-check mr-5"></i> Program Finished</span>
                                 <span id="pgm-error" class="p-8-10 br-t-3 bg-danger white mr-5 fs-s"><i class="fas fa-exclamation-circle mr-5"></i> Error Occurred</span>
+                                
                             </div>
                             <div class="ptb-8">
                                 <span id="copy-output" class="p-8-10 br-t-3 bg-quad white cursor-p hover-shadow fs-s"><i class="fas fa-copy mr-5"></i> Copy Output</span>
@@ -156,6 +203,7 @@
                             <script>
                                 $('#copy-output').click(() => {
                                     let copy = document.getElementById('returned-output').innerHTML
+                                    copy = $('<textarea />').html(copy).text()
                                     copyToClipboard(copy, 'Ouput Copied')
                                 })
                             </script>
@@ -261,6 +309,8 @@
         //document.getElementById('success-btn').style.display = 'none'
         //document.getElementById('raw-code-link').style.display = 'none'
         let programResponse = document.getElementById('code-response-terminate')
+        document.getElementById('pgm-success').style.display = 'none'
+        document.getElementById('pgm-error').style.display = 'none'
         if(programResponse)
             programResponse.id = 'code-response'
         let stopBtn = document.getElementById('stop-btn')
@@ -396,4 +446,18 @@
     }
     let interval = setInterval(saveCodeInLocalStorage, 20000)
 
+</script>
+<script>
+// flash message
+
+const flashMessage = (msg = 'flash msg', bg = 'bg-dark', icon = '<i class="fas fa-check mr-5"></i>') => {
+    let body = document.body
+    let flashMsg = document.createElement('div')
+    flashMsg.className = 'flash-msg-set ' + bg
+    flashMsg.innerHTML = icon + msg
+    body.appendChild(flashMsg)
+    setTimeout(() => {
+        flashMsg.remove()
+    }, 2000)
+}
 </script>

@@ -1,10 +1,10 @@
 #include <iostream>
-#include <math.h>
 using namespace std;
-
+#define variableName(x) #x
 int main(){
-
-    cout << sqrt(4);
+    string str;
+    cin >> str;
+    cout << variableName(str);
 
 	return 0;
 
