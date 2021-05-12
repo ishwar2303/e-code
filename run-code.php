@@ -7,6 +7,7 @@
     $error_status = '';
     $output = '';
     $return = 0;
+    $dir_path = str_replace("\\", "/",__DIR__);
     if(isset($_POST['userCode']) && isset($_POST['langName']) && isset($_POST['runtimeData'])){
         $userCode = $_POST['userCode'];
         $langName = $_POST['langName'];
@@ -32,8 +33,8 @@
         else if($langName == 2){ // C code execution
             $output_file = fopen('programs/c/c-code.c', "w");
             fwrite($output_file, $userCode);
-            exec('cd compiler');
-            exec('cd c');
+            //echo $dir_path;
+            exec($dir_path.'/compiler/c-and-cpp/bin');
             exec('gcc programs/c/c-code.c 2>&1', $output, $return);
             if(!$return){
                 $request_time = time();
@@ -54,8 +55,8 @@
         else if($langName == 3){ // C++ code execution
             $output_file = fopen('programs/cpp/cpp-code.cpp', "w");
             fwrite($output_file, $userCode);
-            exec('cd compiler');
-            exec('cd cpp');
+            //echo $dir_path;
+            exec($dir_path.'/compiler/c-and-cpp/bin');
             exec('g++ programs/cpp/cpp-code.cpp 2>&1', $output, $return);
             if(!$return){
                 $request_time = time();
